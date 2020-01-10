@@ -1,6 +1,5 @@
 package com.acunetix.teamcity;
 
-public enum ScanType{
-	FullWithPrimaryProfile,
-	FullWithSelectedProfile
+public enum ScanType {
+	Incremental, FullWithPrimaryProfile, FullWithSelectedProfile
 }

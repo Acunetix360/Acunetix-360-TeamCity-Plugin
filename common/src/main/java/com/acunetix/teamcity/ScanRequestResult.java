@@ -84,7 +84,7 @@ public class ScanRequestResult extends ApiRequestBase {
             apiUrlToUse = ApiURL;
         }
 
-        String scanReportRelativeUrl = "api/v1/integrationsApi/report/";
+        String scanReportRelativeUrl = "api/1.0/scans/report/";
         URI scanReportEndpointUri = new URL(apiUrlToUse, scanReportRelativeUrl).toURI();
 
         Map<String, String> queryparams = new HashMap<>();

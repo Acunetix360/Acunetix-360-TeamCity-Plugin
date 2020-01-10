@@ -9,44 +9,39 @@
 <l:settingsGroup title="Scan Settings">
     <tr>
         <th>
-            <label for="acunetixScanType">Scan Type:
-                <l:star />
-                <bs:helpIcon iconTitle="<b>Incremental</b>
-                        <hr>
-                        The website's profile is used for retrieving the scan settings.<br>
-                        The last scan with the same scan setting will be used as a base for the incremental scan.<br><br>
-                        <b>Full (With primary profile)</b>
+            <label for="acunetixScanType">Scan Type:<l:star/>
+                <bs:helpIcon iconTitle="<b>Full (With primary profile)</b>
                         <hr>
                         Performs full scan with primary profile.<br>
                         If no primary profile have been defined yet, default Acunetix 360 scan settings will be used.<br><br>
                         <b>Full (With selected profile)</b>
                         <hr>
-                        Performs full scan with provided profile settings." />
+                        Performs full scan with provided profile settings."/>
+
             </label>
         </th>
         <td>
-            <props:selectProperty id="acunetixScanType" name="<%=ScanRequest.SCAN_TYPE_Literal%>" className="longField">
+            <props:selectProperty id="acunetixScanType" name="<%=ScanRequest.SCAN_TYPE_Literal%>"
+                                  className="longField">
                 <props:option value="">-- Please select a scan type --</props:option>
-                <props:option value="<%=ScanType.Incremental.name()%>">Incremental</props:option>
-                <props:option value="<%=ScanType.FullWithPrimaryProfile.name()%>">Full (With primary profile)
-                </props:option>
-                <props:option value="<%=ScanType.FullWithSelectedProfile.name()%>">Full (With selected profile)
-                </props:option>
+                <props:option
+                        value="<%=ScanType.FullWithPrimaryProfile.name()%>">Full (With primary profile)</props:option>
+                <props:option
+                        value="<%=ScanType.FullWithSelectedProfile.name()%>">Full (With selected profile)</props:option>
             </props:selectProperty>
             <span class="error" id="error_acunetixScanType"></span>
         </td>
     </tr>
     <tr>
         <th>
-            <label for="acunetixWebsiteID">Website Deploy URL:
-                <l:star />
-                <bs:helpIcon iconTitle="This address will be scanned." />
+            <label for="acunetixWebsiteID">Website Deploy URL:<l:star/>
+                <bs:helpIcon iconTitle="This address will be scanned."/>
             </label>
         </th>
         <td>
-            <props:hiddenProperty id="<%=ScanRequest.WEBSITE_ID_Literal%>" name="<%=ScanRequest.WEBSITE_ID_Literal%>" />
-            <props:selectProperty id="acunetixWebsiteID_dummy" name="acunetixWebsiteID_dummy" enableFilter="true"
-                className="longField">
+            <props:hiddenProperty id="<%=ScanRequest.WEBSITE_ID_Literal%>" name="<%=ScanRequest.WEBSITE_ID_Literal%>"/>
+            <props:selectProperty id="acunetixWebsiteID_dummy" name="acunetixWebsiteID_dummy"
+                                  enableFilter="true" className="longField">
                 <props:option value="">-- Please select a website URL --</props:option>
             </props:selectProperty>
             <span class="error" id="error_acunetixWebsiteID"></span>
@@ -54,15 +49,14 @@
     </tr>
     <tr>
         <th>
-            <label for="acunetixProfileID">Profile Name:
-                <l:star />
-                <bs:helpIcon iconTitle="This profile setting will be used in the scan." />
+            <label for="acunetixProfileID">Profile Name:<l:star/>
+                <bs:helpIcon iconTitle="This profile setting will be used in the scan."/>
             </label>
         </th>
         <td>
-            <props:hiddenProperty id="<%=ScanRequest.PROFILE_ID_Literal%>" name="<%=ScanRequest.PROFILE_ID_Literal%>" />
-            <props:selectProperty id="acunetixProfileID_dummy" name="acunetixProfileID_dummy" enableFilter="true"
-                className="longField">
+            <props:hiddenProperty id="<%=ScanRequest.PROFILE_ID_Literal%>" name="<%=ScanRequest.PROFILE_ID_Literal%>"/>
+            <props:selectProperty id="acunetixProfileID_dummy" name="acunetixProfileID_dummy"
+                                  enableFilter="true" className="longField">
                 <props:option value="">-- Please select a profile name --</props:option>
             </props:selectProperty>
             <span class="error" id="error_acunetixProfileID"></span>
@@ -71,7 +65,7 @@
     <tr>
         <td colspan="2">
             <forms:progressRing style="display:none;float:left;" id="acunetixLoadingIcon"
-                progressTitle="Loading the Acunetix 360 settings. Please wait..."></forms:progressRing>
+                                progressTitle="Loading the Acunetix 360 settings. Please wait..."></forms:progressRing>
             <span class="error" id="error_acunetixApiSettings"></span>
         </td>
     </tr>

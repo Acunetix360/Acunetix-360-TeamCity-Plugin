@@ -80,3 +80,7 @@ fabric.properties
 
 servers/
 *.iml
+*.project
+*.prefs
+*.classpath
+.vscode/

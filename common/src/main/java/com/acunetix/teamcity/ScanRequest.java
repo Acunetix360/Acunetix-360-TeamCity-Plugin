@@ -36,8 +36,8 @@ public class ScanRequest extends ApiRequestBase {
 
     public ScanRequest(@NotNull Map<String, String> scanParameters) throws MalformedURLException, NullPointerException, URISyntaxException {
         super(scanParameters);
-        scanUri = new URL(ApiURL, "api/v1/integrationsApi/CreateFromPluginScanRequest").toURI();
-        testUri = new URL(ApiURL, "api/v1/integrationsApi/VerifyPluginScanRequest").toURI();
+        scanUri = new URL(ApiURL, "api/1.0/scans/CreateFromPluginScanRequest").toURI();
+        testUri = new URL(ApiURL, "api/1.0/scans/VerifyPluginScanRequest").toURI();
         scanType = ScanType.valueOf(scanParameters.get(SCAN_TYPE_Literal));
         websiteId = scanParameters.get(WEBSITE_ID_Literal);
         profileId = scanParameters.get(PROFILE_ID_Literal);
@@ -61,7 +61,12 @@ public class ScanRequest extends ApiRequestBase {
     }
 
     private void setScanParams(List<NameValuePair> params) {
-        switch (scanType) {
+		switch (scanType) {
+			case Incremental:
+				params.add(new BasicNameValuePair("WebsiteId", websiteId));
+				params.add(new BasicNameValuePair("ProfileId", profileId));
+				params.add(new BasicNameValuePair("ScanType", "Incremental"));
+				break;
             case FullWithPrimaryProfile:
                 params.add(new BasicNameValuePair("WebsiteId", websiteId));
                 params.add(new BasicNameValuePair("ScanType", "FullWithPrimaryProfile"));

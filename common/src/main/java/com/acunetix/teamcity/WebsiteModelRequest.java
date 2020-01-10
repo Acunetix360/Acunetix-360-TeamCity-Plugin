@@ -19,7 +19,7 @@ public class WebsiteModelRequest extends ApiRequestBase {
 
     public WebsiteModelRequest(@NotNull Map<String, String> scanParameters) throws  NullPointerException, URISyntaxException,IOException {
         super(scanParameters);
-        pluginWebSiteModelsUri = new URL(ApiURL, "api/v1/integrationsApi/PluginWebSiteModels").toURI();
+        pluginWebSiteModelsUri = new URL(ApiURL, "api/1.0/scans/PluginWebSiteModels").toURI();
         requestPluginWebSiteModels();
     }
 
