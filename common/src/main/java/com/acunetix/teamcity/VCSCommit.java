@@ -16,7 +16,7 @@ public class VCSCommit {
     public static final String VCS_VERSION_LITERAL = "acunetixVCS_BranchVersion";
     public static final String VCS_Timestamp = "acunetixVCS_TimeStamp";
     public static final String COMMITTER_USERNAME_LITERAL = "acunetixCommitterUserName";
-    public static final String pluginVersion = "1.0.0";
+    public static final String pluginVersion = "1.1.0";
     public final String serverVersion;
     public final String buildId;
     public final String buildConfigurationName;

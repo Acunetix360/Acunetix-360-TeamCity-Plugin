@@ -1,104 +1,105 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <artifactId>acunetix-360-teamcity-plugin</artifactId>
     <groupId>com.acunetix</groupId>
-    <version>1.0.0</version>
+    <version>${revision}</version>
   </parent>
   <artifactId>teamcity.build</artifactId>
   <packaging>pom</packaging>
   <properties>
-      <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
-      <teamcity.acunetix-teamcity-plugin.plugin.version>1.0.0</teamcity.acunetix-teamcity-plugin.plugin.version>
-      <teamcity.acunetix-teamcity-plugin.plugin.vendorName>Acunetix</teamcity.acunetix-teamcity-plugin.plugin.vendorName>
-      <teamcity.acunetix-teamcity-plugin.plugin.vendorUrl>https://www.acunetix.com/</teamcity.acunetix-teamcity-plugin.plugin.vendorUrl>
+    <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
+    <teamcity.acunetix-teamcity-plugin.plugin.version>${revision}</teamcity.acunetix-teamcity-plugin.plugin.version>
+    <teamcity.acunetix-teamcity-plugin.plugin.vendorName>Acunetix</teamcity.acunetix-teamcity-plugin.plugin.vendorName>
+    <teamcity.acunetix-teamcity-plugin.plugin.vendorUrl>https://www.acunetix.com/</teamcity.acunetix-teamcity-plugin.plugin.vendorUrl>
   </properties>
   <dependencies>
-      <dependency>
-           <groupId>com.acunetix</groupId>
-           <artifactId>teamcity.agent</artifactId>
-          <version>1.0.0</version>
-      </dependency>
-      <dependency>
-           <groupId>com.acunetix</groupId>
-           <artifactId>teamcity.common</artifactId>
-          <version>1.0.0</version>
-      </dependency>
-      <dependency>
-           <groupId>com.acunetix</groupId>
-           <artifactId>teamcity.server</artifactId>
-          <version>1.0.0</version>
-      </dependency>
+    <dependency>
+      <groupId>com.acunetix</groupId>
+      <artifactId>teamcity.agent</artifactId>
+      <version>${revision}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.acunetix</groupId>
+      <artifactId>teamcity.common</artifactId>
+      <version>${revision}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.acunetix</groupId>
+      <artifactId>teamcity.server</artifactId>
+      <version>${revision}</version>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
-        <plugin>
-            <groupId>com.google.code.maven-replacer-plugin</groupId>
-            <artifactId>replacer</artifactId>
-            <version>1.5.2</version>
-            <executions>                
-                <execution>
-                    <phase>process-sources</phase>
-                    <goals>
-                        <goal>replace</goal>
-                    </goals>
-                </execution>
-            </executions>
+      <plugin>
+        <groupId>com.google.code.maven-replacer-plugin</groupId>
+        <artifactId>replacer</artifactId>
+        <version>1.5.2</version>
+        <executions>
+          <execution>
+            <phase>process-sources</phase>
+            <goals>
+              <goal>replace</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <file>${basedir}/../teamcity-plugin.xml</file>
+          <outputFile>${basedir}/target/teamcity-plugin.xml</outputFile>
+          <replacements>
+            <replacement>
+              <token>@Version@</token>
+              <value>${teamcity.acunetix-teamcity-plugin.plugin.version}</value>
+            </replacement>
+            <replacement>
+              <token>@VendorName@</token>
+              <value>${teamcity.acunetix-teamcity-plugin.plugin.vendorName}</value>
+            </replacement>
+            <replacement>
+              <token>@VendorURL@</token>
+              <value>${teamcity.acunetix-teamcity-plugin.plugin.vendorUrl}</value>
+            </replacement>
+          </replacements>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.4</version>
+        <executions>
+          <execution>
+            <id>make-agent-assembly</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
             <configuration>
-                <file>${basedir}/../teamcity-plugin.xml</file>
-                <outputFile>${basedir}/target/teamcity-plugin.xml</outputFile>
-                <replacements>
-                    <replacement>
-                        <token>@Version@</token>
-                        <value>${teamcity.acunetix-teamcity-plugin.plugin.version}</value>
-                    </replacement>
-                    <replacement>
-                        <token>@VendorName@</token>
-                        <value>${teamcity.acunetix-teamcity-plugin.plugin.vendorName}</value>
-                    </replacement>
-                    <replacement>
-                        <token>@VendorURL@</token>
-                        <value>${teamcity.acunetix-teamcity-plugin.plugin.vendorUrl}</value>
-                    </replacement>
-                </replacements>                        
+              <finalName>acunetix-agent</finalName>
+              <appendAssemblyId>false</appendAssemblyId>
+              <descriptors>
+                <descriptor>plugin-agent-assembly.xml</descriptor>
+              </descriptors>
             </configuration>
-        </plugin>
-        <plugin>
-            <artifactId>maven-assembly-plugin</artifactId>
-            <version>2.4</version>
-            <executions>
-              <execution>
-                <id>make-agent-assembly</id>
-                <phase>package</phase>
-                <goals>
-                  <goal>single</goal>
-                </goals>
-                <configuration>
-                  <finalName>acunetix-agent</finalName>
-                  <appendAssemblyId>false</appendAssemblyId>
-                  <descriptors>
-                    <descriptor>plugin-agent-assembly.xml</descriptor>
-                  </descriptors>
-                </configuration>
-              </execution>
-              <execution>
-                <id>make-assembly</id>
-                <phase>package</phase>
-                <goals>
-                  <goal>single</goal>
-                </goals>
-                <configuration>
-                  <finalName>acunetix-360-teamcity-plugin</finalName>
-                  <outputDirectory>${project.parent.build.directory}</outputDirectory>
-                  <appendAssemblyId>false</appendAssemblyId>
-                  <descriptors>
-                    <descriptor>plugin-assembly.xml</descriptor>
-                  </descriptors>
-                </configuration>
-              </execution>
-            </executions>
-        </plugin>
+          </execution>
+          <execution>
+            <id>make-assembly</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <configuration>
+              <finalName>acunetix-360-teamcity-plugin</finalName>
+              <outputDirectory>${project.parent.build.directory}</outputDirectory>
+              <appendAssemblyId>false</appendAssemblyId>
+              <descriptors>
+                <descriptor>plugin-assembly.xml</descriptor>
+              </descriptors>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 </project>
