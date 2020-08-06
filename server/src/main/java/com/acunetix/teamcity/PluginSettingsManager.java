@@ -10,49 +10,49 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
 
-public class PluginSettingsManager{
+public class PluginSettingsManager {
 	private File configFile;
 	private XStream xStream;
 	private PluginSettings pluginSettings;
 	private CameFromSupport cameFromSupport;
-	
+
 	public PluginSettingsManager(@NotNull ServerPaths serverPaths) {
 		xStream = new XStream(new DomDriver());
 		xStream.processAnnotations(PluginSettings.class);
 		xStream.setClassLoader(PluginSettings.class.getClassLoader());
-		
+
 		configFile = new File(serverPaths.getConfigDir(), "acunetix-config.xml");
 		loadConfig();
 	}
-	
+
 	public PluginSettings getPluginSettings() {
 		synchronized (this) {
 			loadConfig();
 		}
-		
+
 		return pluginSettings;
 	}
-	
+
 	public void setPluginSettings(PluginSettings pluginSettings) {
 		this.pluginSettings = pluginSettings;
 	}
-	
+
 	public String getHexEncodedPublicKey() {
 		return RSACipher.getHexEncodedPublicKey();
 	}
-	
+
 	public String getRandom() {
 		return String.valueOf(Math.random());
 	}
-	
+
 	public CameFromSupport getCameFromSupport() {
 		return cameFromSupport;
 	}
-	
+
 	public void setCameFromSupport(CameFromSupport cameFromSupport) {
 		this.cameFromSupport = cameFromSupport;
 	}
-	
+
 	public void save() {
 		FileOutputStream outputStream = null;
 		try {
@@ -64,7 +64,7 @@ public class PluginSettingsManager{
 			FileUtil.close(outputStream);
 		}
 	}
-	
+
 	private void loadConfig() {
 		if (configFile.exists()) {
 			FileInputStream inputStream = null;

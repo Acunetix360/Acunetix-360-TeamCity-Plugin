@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans default-autowire="constructor">
-    <bean id="acunetixScanRunType" class="com.acunetix.teamcity.ScanRunType"/>
-    <bean id="acunetixPluginSettingsTab" class="com.acunetix.teamcity.PluginSettingsTab"/>
-    <bean id="acunetixPluginSettingsManager" class="com.acunetix.teamcity.PluginSettingsManager"/>
-    <bean id="acunetixPluginSettingsController" class="com.acunetix.teamcity.PluginSettingsController"/>
-    <bean id="acunetixTestController" class="com.acunetix.teamcity.ScanTestController"/>
-    <bean id="acunetixWebsiteModelController" class="com.acunetix.teamcity.WebsiteModelController"/>
-    <bean id="acunetixScanDataController" class="com.acunetix.teamcity.ScanDataController"/>
-    <bean id="acunetixScanLogTab" class="com.acunetix.teamcity.AcunetixReport"/>
-    <bean  id="acunetixScanBuildParametersPreprocessor" class="com.acunetix.teamcity.ScanBuildParametersPreprocessor"/>
+    <bean id="acunetixScanRunType" class="com.acunetix.teamcity.ScanRunType" />
+    <bean id="acunetixPluginSettingsTab" class="com.acunetix.teamcity.PluginSettingsTab" />
+    <bean id="acunetixPluginSettingsManager" class="com.acunetix.teamcity.PluginSettingsManager" />
+    <bean id="acunetixPluginSettingsController" class="com.acunetix.teamcity.PluginSettingsController" />
+    <bean id="acunetixTestController" class="com.acunetix.teamcity.ScanTestController" />
+    <bean id="acunetixWebsiteModelController" class="com.acunetix.teamcity.WebsiteModelController" />
+    <bean id="acunetixScanDataController" class="com.acunetix.teamcity.ScanDataController" />
+    <bean id="acunetixScanLogTab" class="com.acunetix.teamcity.AcunetixReport" />
+    <bean id="acunetixScanBuildParametersPreprocessor" class="com.acunetix.teamcity.ScanBuildParametersPreprocessor" />
 </beans>

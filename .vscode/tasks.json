@@ -1,0 +1,43 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "teamcityStart",
+            "type": "shell",
+            "command": "mvn package tc-sdk:start -DteamcityVersion=2020.1.1",
+            "problemMatcher": [],
+            // "dependsOn": [
+            //     "teamcityCleanTask"
+            // ],
+        },
+        {
+            "label": "teamcityReload",
+            "type": "shell",
+            "command": "mvn package tc-sdk:reload",
+            "problemMatcher": [],
+            // "dependsOn": [
+            //     "teamcityCleanTask"
+            // ],
+        },
+        {
+            "label": "teamcityStop",
+            "type": "shell",
+            "command": "mvn tc-sdk:stop",
+            "problemMatcher": []
+        },
+        {
+            "label": "teamcityReloadResources",
+            "type": "shell",
+            "command": "mvn tc-sdk:reloadResources",
+            "problemMatcher": []
+        },
+        {
+            "label": "teamcityCleanTask",
+            "type": "shell",
+            "command": "mvn clean",
+            "problemMatcher": [],
+        },
+    ]
+}
