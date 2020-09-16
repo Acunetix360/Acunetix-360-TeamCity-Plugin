@@ -13,12 +13,14 @@
         <dependency>
             <groupId>org.jetbrains.teamcity</groupId>
             <artifactId>tests-support</artifactId>
+            <!-- <version>2020.1.1</version> -->
             <version>${teamcity-version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.jetbrains.teamcity</groupId>
             <artifactId>common-api</artifactId>
+            <!-- <version>2020.1.1</version> -->
             <version>${teamcity-version}</version>
             <scope>provided</scope>
         </dependency>
@@ -37,11 +39,6 @@
             <groupId>commons-digester</groupId>
             <artifactId>commons-digester</artifactId>
             <version>2.1</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-beanutils</groupId>
-            <artifactId>commons-beanutils</artifactId>
-            <version>1.9.2</version>
         </dependency>
         <dependency>
             <groupId>commons-collections</groupId>
