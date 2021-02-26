@@ -3,7 +3,7 @@
 
 <div>
     <p id="acunetixScanResultWarning"></p>
-    <iframe id="acunetixScanResult" style="display:none;width:100%;height:70vh;" srcdoc="${content}"></iframe>
+    <iframe id="acunetixScanResult" style="display:none;width:100%;height:100vh;" srcdoc="${content}"></iframe>
     <script>
         jQuery(document).ready(function () {
             var isReportGenerated = "${isReportGenerated}";
