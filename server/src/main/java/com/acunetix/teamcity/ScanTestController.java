@@ -2,6 +2,7 @@ package com.acunetix.teamcity;
 
 import jetbrains.buildServer.serverSide.SBuildServer;
 import jetbrains.buildServer.serverSide.crypt.RSACipher;
+import jetbrains.buildServer.util.StringUtil;
 import jetbrains.buildServer.web.openapi.WebControllerManager;
 import org.jdom.Element;
 import org.jetbrains.annotations.NotNull;
@@ -33,6 +34,13 @@ public class ScanTestController extends AjaxControllerBase{
 		Map<String, String> parameters = getParameters(httpServletRequest);
 		String decryptedToken = RSACipher.decryptWebRequestData(httpServletRequest.getParameter(ApiRequestBase.API_TOKEN_Literal));
 		parameters.put(ApiRequestBase.API_TOKEN_Literal, decryptedToken);
+
+		Boolean proxyUsed = Boolean.parseBoolean(httpServletRequest.getParameter(ApiRequestBase.PROXY_Used));
+		String proxyPassword = httpServletRequest.getParameter(ApiRequestBase.PROXY_Password);
+		if(proxyUsed &&  !StringUtil.isEmptyOrSpaces(proxyPassword)){
+			proxyPassword = RSACipher.decryptWebRequestData(proxyPassword);
+			parameters.put(ApiRequestBase.PROXY_Password, proxyPassword);
+		}
 
 		try {
 			ServerLogger.logInfo("ScanTestController", "Testing the Acunetix 360 connection.");

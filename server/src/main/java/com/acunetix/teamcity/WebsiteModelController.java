@@ -41,6 +41,15 @@ public class WebsiteModelController extends AjaxControllerBase{
 		try {
 			parameters.put("acunetixServerURL", pluginSettings.getServerURL());
 			parameters.put("acunetixApiToken", pluginSettings.getApiToken());
+
+			if(pluginSettings.getProxyUsed()){
+				parameters.put("acunetixProxyUsed",String.valueOf(pluginSettings.getProxyUsed()));
+				parameters.put("acunetixProxyHost",pluginSettings.getProxyHost());
+				parameters.put("acunetixProxyPort",String.valueOf(pluginSettings.getProxyPort()));
+				parameters.put("acunetixProxyUsername",pluginSettings.getProxyUsername());
+				parameters.put("acunetixEncryptedProxyPassword",pluginSettings.getEncryptedProxyPassword());
+			}
+
 			WebsiteModelRequest websiteModelRequest = new WebsiteModelRequest(parameters);
 			websiteModelRequest.requestPluginWebSiteModels();
 			int httpStatusCode = websiteModelRequest.getResponseStatusCode();

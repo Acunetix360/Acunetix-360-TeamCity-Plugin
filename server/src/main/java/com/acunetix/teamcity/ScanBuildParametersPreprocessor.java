@@ -49,6 +49,15 @@ public class ScanBuildParametersPreprocessor implements ParametersPreprocessor{
 		ServerLogger.logInfo("ScanBuildParametersPreprocessor", "Adding API settings...");
 		parameters.put(ApiRequestBase.API_URL_Literal, pluginSettings.getServerURL());
 		parameters.put(ApiRequestBase.API_TOKEN_Literal, pluginSettings.getApiToken());
+
+		if(pluginSettings.getProxyUsed()){
+			parameters.put(ApiRequestBase.PROXY_Used,String.valueOf(pluginSettings.getProxyUsed()));
+			parameters.put(ApiRequestBase.PROXY_Host,pluginSettings.getProxyHost());
+			parameters.put(ApiRequestBase.PROXY_Port,String.valueOf(pluginSettings.getProxyPort()));
+			parameters.put(ApiRequestBase.PROXY_Username,pluginSettings.getProxyUsername());
+			parameters.put(ApiRequestBase.PROXY_Password_ENCRYPTED,pluginSettings.getEncryptedProxyPassword());
+			parameters.put(ApiRequestBase.PROXY_Password,pluginSettings.getProxyPassword());
+		}
 		
 		ServerLogger.logInfo("ScanBuildParametersPreprocessor", "Adding CI parameters...");
 		final long buildId = build.getBuildId();

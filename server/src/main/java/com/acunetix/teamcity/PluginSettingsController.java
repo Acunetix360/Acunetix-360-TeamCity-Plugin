@@ -59,11 +59,30 @@ public class PluginSettingsController extends AjaxControllerBase{
 			errors.addError("acunetixApiURL", "The parameter 'Acunetix 360 Server URL' is invalid.");
 			ServerLogger.logWarn("PluginSettingsController", "Server URL is invalid.");
 		}
-		
-		final String apiToken = RSACipher.decryptWebRequestData(request.getParameter("encryptedAcunetixApiToken"));
+
+		String apiToken = RSACipher.decryptWebRequestData(request.getParameter("encryptedAcunetixApiToken"));
+		if(apiToken == null || StringUtil.isEmptyOrSpaces(apiToken)){
+			apiToken = RSACipher.decryptWebRequestData(request.getParameter("acunetixEncryptedApiToken"));
+		}
+
 		if (StringUtil.isEmptyOrSpaces(apiToken)) {
 			errors.addError("acunetixApiToken", "The parameter 'API Token' must be specified.");
 			ServerLogger.logWarn("PluginSettingsController", "API token is empty.");
+		}
+
+		final Boolean proxyUsed = request.getParameter("acunetixProxyUsed") != null;
+		if (proxyUsed) {
+			final String proxyHost = request.getParameter("acunetixProxyHost");
+			if (StringUtil.isEmptyOrSpaces(proxyHost)) {
+				errors.addError("acunetixProxyHost", "The parameter 'Proxy Host' must be specified.");
+				ServerLogger.logWarn("PluginSettingsController", "Proxy Host is Empty.");
+			}
+
+			final String proxyPort = request.getParameter("acunetixProxyPort");
+			if (StringUtil.isEmptyOrSpaces(proxyPort)) {
+				errors.addError("acunetixProxyPort", "The parameter 'Proxy Port' must be specified.");
+				ServerLogger.logWarn("PluginSettingsController", "Proxy Port is Empty.");
+			}
 		}
 		
 		return errors;
@@ -82,6 +101,39 @@ public class PluginSettingsController extends AjaxControllerBase{
 			settings.setApiToken(apiToken);
 		} else {
 			settings.setApiToken(pluginSettingsManager.getPluginSettings().getApiToken());
+		}
+
+		Boolean proxyUsed = request.getParameter("acunetixProxyUsed") != null;
+
+		if(proxyUsed){
+
+			String proxyHost = request.getParameter("acunetixProxyHost");
+			String proxyPort = request.getParameter("acunetixProxyPort");
+			String proxyUsername = request.getParameter("acunetixProxyUsername");
+
+			String encryptedPassword = RSACipher.decryptWebRequestData(request.getParameter("encryptedAcunetixProxyPassword"));
+			if(encryptedPassword == null || StringUtil.isEmptyOrSpaces(encryptedPassword)){
+				encryptedPassword = RSACipher.decryptWebRequestData(request.getParameter("acunetixEncryptedProxyPassword"));
+			}
+
+			if (!StringUtil.isEmptyOrSpaces(encryptedPassword)) {
+
+				String proxyPasswordInitial = request.getParameter("acunetixProxyPasswordInitialValue");
+
+				if (!encryptedPassword.equals(proxyPasswordInitial)) {
+					settings.setProxyPassword(encryptedPassword);
+				} else {
+					settings.setProxyPassword(pluginSettingsManager.getPluginSettings().getProxyPassword());
+				}
+			}
+
+			settings.setProxyUsed(true);
+			settings.setProxyHost(proxyHost);
+			settings.setProxyPort(proxyPort);
+			settings.setProxyUsername(proxyUsername);
+		}
+		else{
+			settings.setProxyUsed(false);
 		}
 		
 		pluginSettingsManager.setPluginSettings(settings);
