@@ -45,7 +45,11 @@ public class ScanBuildParametersPreprocessor implements ParametersPreprocessor{
 	private boolean addBuildParameters(SBuild build) {
 		ServerLogger.logInfo("ScanBuildParametersPreprocessor", "Getting plugin settings...");
 		final PluginSettings pluginSettings = pluginSettingsManager.getPluginSettings();
-		
+
+		if(pluginSettings == null){
+			return false;
+		}
+
 		ServerLogger.logInfo("ScanBuildParametersPreprocessor", "Adding API settings...");
 		parameters.put(ApiRequestBase.API_URL_Literal, pluginSettings.getServerURL());
 		parameters.put(ApiRequestBase.API_TOKEN_Literal, pluginSettings.getApiToken());
