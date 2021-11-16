@@ -7,8 +7,8 @@
     <version>${revision}</version>
     <packaging>pom</packaging>
     <properties>
-        <teamcity-version>2020.2.2</teamcity-version>
-        <revision>1.2.8</revision>
+        <teamcity-version>2021.2</teamcity-version>
+        <revision>1.2.10</revision>
     </properties>
     <repositories>
         <repository>

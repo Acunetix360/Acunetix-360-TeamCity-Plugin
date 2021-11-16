@@ -2,6 +2,9 @@ package com.acunetix.teamcity;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
+import com.thoughtworks.xstream.security.AnyTypePermission;
+import com.thoughtworks.xstream.security.ForbiddenClassException;
+
 import jetbrains.buildServer.serverSide.ServerPaths;
 import jetbrains.buildServer.serverSide.crypt.RSACipher;
 import jetbrains.buildServer.util.FileUtil;
@@ -18,8 +21,11 @@ public class PluginSettingsManager {
 
 	public PluginSettingsManager(@NotNull ServerPaths serverPaths) {
 		xStream = new XStream(new DomDriver());
+		XStream.setupDefaultSecurity(xStream);
+		xStream.autodetectAnnotations(true);
 		xStream.processAnnotations(PluginSettings.class);
 		xStream.setClassLoader(PluginSettings.class.getClassLoader());
+		xStream.addPermission(AnyTypePermission.ANY);
 
 		configFile = new File(serverPaths.getConfigDir(), "acunetix-config.xml");
 		loadConfig();
@@ -57,7 +63,7 @@ public class PluginSettingsManager {
 		FileOutputStream outputStream = null;
 		try {
 			outputStream = new FileOutputStream(configFile);
-			xStream.toXML(pluginSettings, outputStream);
+			this.xStream.toXML(pluginSettings, outputStream);
 		} catch (FileNotFoundException e) {
 			ServerLogger.logError("PluginSettings", e);
 		} finally {
@@ -70,12 +76,45 @@ public class PluginSettingsManager {
 			FileInputStream inputStream = null;
 			try {
 				inputStream = new FileInputStream(configFile);
-				pluginSettings = (PluginSettings) xStream.fromXML(inputStream);
+				Object config = this.xStream.fromXML(inputStream);
+				if (config instanceof PluginSettings) {
+					pluginSettings = (PluginSettings) config;
+				} else {
+					throw new RuntimeException("Invalid config file");
+				}
 			} catch (IOException e) {
+				ServerLogger.logError("PluginSettings", e);
+				OverwriteConfigSettings();
+			} catch (ForbiddenClassException e) { // for xstream package error seperation
+				ServerLogger.logError("PluginSettings", e);
+			} catch (RuntimeException e) {
 				ServerLogger.logError("PluginSettings", e);
 			} finally {
 				FileUtil.close(inputStream);
 			}
 		}
+	}
+	
+	private void OverwriteConfigSettings(){
+		try{
+			if(pluginSettings.getApiToken() != ""){
+				pluginSettings.setApiToken(pluginSettings.getApiToken());
+			}else{
+				pluginSettings.setApiToken("");
+			}
+	
+			if(pluginSettings.getServerURL() != ""){
+				pluginSettings.setServerURL(pluginSettings.getServerURL());
+			}else{
+				pluginSettings.setServerURL("");
+			}
+	
+			pluginSettings.setProxyUsed(false);
+			pluginSettings.setProxyHost("");
+			pluginSettings.setProxyPassword("");
+			pluginSettings.setProxyPort("");
+			pluginSettings.setProxyUsername("");
+			save();
+		}catch (Exception e){}
 	}
 }
