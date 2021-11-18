@@ -8,7 +8,7 @@
     <packaging>pom</packaging>
     <properties>
         <teamcity-version>2021.2</teamcity-version>
-        <revision>1.2.10</revision>
+        <revision>1.2.11</revision>
     </properties>
     <repositories>
         <repository>

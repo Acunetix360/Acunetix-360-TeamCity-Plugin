@@ -60,6 +60,7 @@ public class WebsiteModelController extends AjaxControllerBase{
 				ServerLogger.logInfo("WebsiteModelController", "Acunetix 360 test connection succeeded.");
 				try {
 					SAXBuilder builder = new SAXBuilder();
+					builder.setExpandEntities(false);
 					String xmlData = websiteModelRequest.getResponseContent();
 					InputStream stream = new ByteArrayInputStream(xmlData.getBytes("UTF-8"));
 					Document document = builder.build(stream);
