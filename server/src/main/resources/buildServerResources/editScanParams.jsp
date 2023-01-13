@@ -1,10 +1,12 @@
 <%@ page import=" com.acunetix.teamcity.ScanRequest" %>
 <%@ page import=" com.acunetix.teamcity.ScanType" %>
+<%@include file="/include.jsp" %>
 <%@ taglib prefix="props" tagdir="/WEB-INF/tags/props" %>
 <%@ taglib prefix="l" tagdir="/WEB-INF/tags/layout" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="forms" tagdir="/WEB-INF/tags/forms" %>
 <%@ taglib prefix="bs" tagdir="/WEB-INF/tags" %>
+<jsp:useBean id="serverTC" type="jetbrains.buildServer.serverSide.SBuildServer" scope="request"/>
 
 <l:settingsGroup title="Scan Settings">
     <tr>
@@ -163,7 +165,7 @@
         updateNcParamsAndUI();
         ncScanParams.isConnectionValidated = false;
         acunetixLoadingIcon.show();
-        var request = jQuery.post("/acunetix/websitemodel.html");
+        var request = jQuery.post("${serverTC.rootUrl}/acunetix/websitemodel.html");
 
         request.done(function (data, statusText, xhr) {
             ncTestRequestData = data;

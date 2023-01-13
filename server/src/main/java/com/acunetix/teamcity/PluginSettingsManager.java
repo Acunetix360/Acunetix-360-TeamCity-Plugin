@@ -63,7 +63,7 @@ public class PluginSettingsManager {
 		FileOutputStream outputStream = null;
 		try {
 			outputStream = new FileOutputStream(configFile);
-			this.xStream.toXML(pluginSettings, outputStream);
+			xStream.toXML(pluginSettings, outputStream);
 		} catch (FileNotFoundException e) {
 			ServerLogger.logError("PluginSettings", e);
 		} finally {

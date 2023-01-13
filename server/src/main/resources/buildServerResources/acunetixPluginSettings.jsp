@@ -10,6 +10,7 @@
 <jsp:useBean id="pluginSettingsManager" type="com.acunetix.teamcity.PluginSettingsManager" scope="request"/>
 <c:url var="controllerUrl" value="/acunetix/pluginsettings.html"/>
 <c:url var="logoUrl" value="${teamcityPluginResourcesPath}images/logo.svg"/>
+<jsp:useBean id="serverTC" type="jetbrains.buildServer.serverSide.SBuildServer" scope="request"/>
 
 <script type="text/javascript">
     var pluginSettingsForm = OO.extend(BS.AbstractPasswordForm, {
@@ -251,7 +252,7 @@
 
                 function ncTestConnection() {
                     updateNcParams();
-                    var request = jQuery.post("/acunetix/testconnection.html", ncTestRequestParams);
+                    var request = jQuery.post("${serverTC.rootUrl}/acunetix/testconnection.html", ncTestRequestParams);
 
                     request.done(function (data, statusText, xhr) {
                         var status = jQuery(data).find("httpStatusCode").text();

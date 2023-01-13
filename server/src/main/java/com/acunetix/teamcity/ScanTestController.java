@@ -32,7 +32,10 @@ public class ScanTestController extends AjaxControllerBase{
 	@Override
 	protected void doPost(@NotNull HttpServletRequest httpServletRequest, @NotNull HttpServletResponse httpServletResponse, @NotNull Element element) {
 		Map<String, String> parameters = getParameters(httpServletRequest);
-		String decryptedToken = RSACipher.decryptWebRequestData(httpServletRequest.getParameter(ApiRequestBase.API_TOKEN_Literal));
+		String decryptedToken = RSACipher.decryptWebRequestData(httpServletRequest.getParameter(ApiRequestBase.API_ENCRYPTED_TOKEN_Literal));
+		if (decryptedToken == null || decryptedToken.length() == 0) {
+			decryptedToken = RSACipher.decryptWebRequestData(httpServletRequest.getParameter(ApiRequestBase.API_TOKEN_Literal));
+		}
 		parameters.put(ApiRequestBase.API_TOKEN_Literal, decryptedToken);
 
 		Boolean proxyUsed = Boolean.parseBoolean(httpServletRequest.getParameter(ApiRequestBase.PROXY_Used));
