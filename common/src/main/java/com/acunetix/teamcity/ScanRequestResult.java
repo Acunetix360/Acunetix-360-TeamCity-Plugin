@@ -9,7 +9,6 @@ import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.json.simple.parser.ParseException;
-import org.springframework.remoting.support.UrlBasedRemoteAccessor;
 
 import java.io.IOException;
 import java.net.MalformedURLException;

@@ -98,17 +98,54 @@ public abstract class AbstractBuildProcessAdapter extends BuildProcessAdapter{
 	
 	protected abstract void runProcess() throws RunBuildException;
 	
-	
+	/**
+	 * Validates that the folder name does not contain path traversal sequences.
+	 * 
+	 * @param folderName the folder name to validate
+	 * @throws SecurityException if path traversal is detected
+	 */
+	private void validateFolderName(String folderName) throws SecurityException {
+		if (folderName == null || folderName.trim().isEmpty()) {
+			throw new SecurityException("Folder name cannot be null or empty");
+		}
+		
+		// Normalize the folder name to detect traversal attempts
+		String normalizedName = folderName.replace('\\', '/');
+		
+		// Check for path traversal patterns
+		if (normalizedName.contains("..") || 
+		    normalizedName.contains("./") || 
+		    normalizedName.startsWith("/") ||
+		    normalizedName.contains("//") ||
+		    normalizedName.matches(".*[<>:\"|?*].*")) { // Windows invalid chars
+			throw new SecurityException(
+				String.format("Invalid folder name detected. Potential path traversal attempt: %s", folderName)
+			);
+		}
+	}
+
 	protected Path CreateDirectoryForReporting(String folderName) throws IOException {
-		// initialize reporting root path
+		validateFolderName(folderName);
+		
 		final String reportingRootCanonicalPath = reportingRoot.getCanonicalPath();
 		progressLogger.message(String.format("The reporting root path is [%1$s].", reportingRootCanonicalPath));
 		final Path reportingRootPath = Paths.get(reportingRootCanonicalPath, folderName);
+		final String resolvedCanonicalPath = reportingRootPath.toFile().getCanonicalPath();
+		
+		if (!resolvedCanonicalPath.startsWith(reportingRootCanonicalPath)) {
+			throw new SecurityException(
+				String.format(
+					"Path traversal detected. Resolved path [%s] is outside reporting root [%s]",
+					resolvedCanonicalPath,
+					reportingRootCanonicalPath
+				)
+			);
+		}
+
 		Path directory = Files.createDirectory(reportingRootPath);
 		progressLogger.message(String.format("Create directory for reporting [%1$s].", reportingRootPath));
-		// register artifacts
 		artifactsWatcher.addNewArtifactsPath(reportingRootPath.toString());
-		
+
 		return directory;
 	}
 	

@@ -7,8 +7,8 @@
     <version>${revision}</version>
     <packaging>pom</packaging>
     <properties>
-        <teamcity-version>2021.2</teamcity-version>
-        <revision>1.2.15</revision>
+        <teamcity-version>2025.07</teamcity-version>
+        <revision>2.0.0</revision>
     </properties>
     <repositories>
         <repository>
@@ -27,7 +27,7 @@
             <plugin>
                 <groupId>org.jetbrains.teamcity</groupId>
                 <artifactId>teamcity-sdk-maven-plugin</artifactId>
-                <version>0.4.2</version>
+                <version>0.4.3</version>
                 <configuration>
                     <!-- <teamcityDir>/path/to/tc/distro</teamcityDir> -->
                 </configuration>
@@ -38,16 +38,16 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.8.1</version>
+                    <version>3.14.1</version>
                     <configuration>
-                        <source>1.8</source>
-                        <target>1.8</target>
+                        <source>17</source>
+                        <target>17</target>
                     </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.jetbrains.teamcity</groupId>
                     <artifactId>teamcity-sdk-maven-plugin</artifactId>
-                    <version>0.4</version>
+                    <version>0.4.3</version>
                     <configuration>
                         <!-- <teamcityDir>/path/to/tc/distro</teamcityDir> -->
                     </configuration>
@@ -59,7 +59,7 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-text</artifactId>
-            <version>1.10.0</version>
+            <version>1.14.0</version>
         </dependency>
     </dependencies>
     <modules>
