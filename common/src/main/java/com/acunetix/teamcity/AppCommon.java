@@ -10,6 +10,7 @@ import org.json.simple.parser.ParseException;
 
 import java.io.*;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -43,15 +44,29 @@ public class AppCommon{
 	}
 	
 	public static boolean IsUrlValid(String url) {
-		String[] schemes = {"http", "https"}; // DEFAULT schemes = "http", "https", "ftp"
-		UrlValidator urlValidator = new UrlValidator(schemes, UrlValidator.ALLOW_LOCAL_URLS);
-		
-		if (urlValidator.isValid(url)) {
-			return true;
-		} else {
-			return false;
-		}
-	}
+        if (url == null || url.trim().isEmpty()) {
+            return false;
+        }
+
+        String[] schemes = { "http", "https" }; // DEFAULT schemes = "http", "https", "ftp"
+        UrlValidator urlValidator = new UrlValidator(schemes, UrlValidator.ALLOW_LOCAL_URLS);
+
+        if (urlValidator.isValid(url)) {
+            return true;
+        }
+
+        // Fallback for internal/corporate domains (e.g. .local, .internal)
+        // that Apache Commons UrlValidator does not recognize
+        try {
+            URI uri = new URI(url);
+            String scheme = uri.getScheme();
+            return ("http".equalsIgnoreCase(scheme) || "https".equalsIgnoreCase(scheme))
+                    && uri.getHost() != null
+                    && !uri.getHost().isEmpty();
+        } catch (Exception e) {
+            return false;
+        }
+    }
 	
 	public static boolean IsGUIDValid(String guid) {
 		try {
